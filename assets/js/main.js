@@ -1,6 +1,4 @@
 console.log("Entro al main.js");
-
-//Constantes
 const piezas = [
     {
         nombre: "Peon",
@@ -33,7 +31,6 @@ const piezas = [
         imagen: "assets/images/caballo.png"
     }
 ];
-
 // Referencia al texto de busqueda
 const textoBusqueda = document.getElementById("textoBusqueda");
 // Referencia al parrafo de resultado
@@ -42,31 +39,34 @@ const resultadoBusqueda = document.getElementById("resultadoBusqueda");
 const imgPieza = document.getElementById("imgPieza");
 
 
-//Funciones
+// Funciones
 function buscar() {
     const termino_busqueda = textoBusqueda.value;
     if (termino_busqueda == "") {
         alert("Ingrese un termino de busqueda");
-    }else {
+    } else {
         console.log("Entro a la funcion buscar");
-        console.log("El usuario esta buscando ", termino_busqueda);
-        const resultado = piezas.find(pieza => pieza.nombre.toUpperCase() == termino_busqueda.toUpperCase());
-        //SOLO HACE LA BUSQUEDA SI ESTA BACIO
+        console.log("El usuario esta buscando: ", termino_busqueda);
+        const resultado = piezas.find(pieza => pieza.nombre.toLowerCase() == termino_busqueda.toLowerCase());
         console.log(resultado);
-        resultadoBusqueda.innerHTML = resultado.movimiento;
-        //Las 2 maneras posibles de hacerlo
+        // Las dos manera osibles de hacerlos.....
         // imgPieza.src = resultado.imagen;
-        imgPieza.setAttribute("src", resultado.imagen);
-        //
+
+        if (resultado == undefined) {
+            alert("No se encontro la pieza");
+            resultadoBusqueda.innerHTML = "No hay resultados";
+            imgPieza.src = "assets/images/logo.png";
+        } else {
+            resultadoBusqueda.innerHTML = resultado.movimiento;
+            imgPieza.setAttribute("src", resultado.imagen);
+        }
     }
-} 
+}
 
 
-textoBusqueda.addEventListener("keypress", function (event){
-    //te desclosa los caracteres de manera independiente
-    //console.log(event.key);
-    if (event.key == "Enter"){
+textoBusqueda.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
         event.preventDefault();
         buscar();
     }
-})
+});
